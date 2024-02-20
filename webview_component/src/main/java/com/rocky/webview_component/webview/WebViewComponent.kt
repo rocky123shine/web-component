@@ -1,10 +1,12 @@
 package com.rocky.webview_component.webview
 
 import android.content.Context
+import android.os.Looper
 import android.util.AttributeSet
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import com.rocky.webview_component.webview.webviewprocess.callback.WebViewCallBack
 import com.rocky.webview_component.webview.webviewprocess.client.ChromeClient
 import com.rocky.webview_component.webview.webviewprocess.client.ViewClient
@@ -17,7 +19,7 @@ import com.rocky.webview_component.webview.webviewprocess.settings.WebViewDefaul
  * </pre>
  */
 class WebViewComponent constructor(
-    context: Context,
+    private val context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0,
@@ -49,5 +51,8 @@ class WebViewComponent constructor(
     @JavascriptInterface
     fun executeNativeAction(jsParam: String) {
         println("h5 调用原生方法 $jsParam")
+        android.os.Handler(Looper.getMainLooper()).post {
+            Toast.makeText(context, jsParam, Toast.LENGTH_SHORT).show()
+        }
     }
 }

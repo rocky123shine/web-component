@@ -18,7 +18,7 @@ class WebComponentActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        val frag = WebComponentFragment.instance("https://www.baidu.com")
+        val frag = WebComponentFragment.instance("file:///android_asset/index.html")
         canGoBack = frag.canGoBack
         supportFragmentManager.beginTransaction().replace(R.id.flWeb, frag).commit()
     }
