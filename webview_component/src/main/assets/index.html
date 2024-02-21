@@ -22,6 +22,17 @@
             console.log("callAppToast.........")
             //此时需要通js 传递到native
             messagejs.executeNativeAction("showToast", {message: "this is a message from html."});
+        }
+        function openMainActivity() {
+            console.log("openMainActivity.........")
+
+        }
+        function openOtherMainActivity() {
+            console.log("openOtherMainActivity.........")
+
+        }
+        function loginGetResult() {
+            console.log("loginGetResult.........")
 
         }
     </script>
@@ -29,6 +40,10 @@
 </head>
 <body style="height: 100%">
 <div class="item" style="font-size: 20px;color: #ffffff" onclick="callAppToast()">调用：showToast</div>
+<div class="item" style="font-size: 20px;color: #ffffff" onclick="openMainActivity()">打开MainProcessTestActivity</div>
+<div class="item" style="font-size: 20px;color: #ffffff" onclick="openOtherMainActivity()">打开另一个主进程的activity</div>
+<div class="item" style="font-size: 20px;color: #ffffff" onclick="loginGetResult()">登录并返回结果</div>
+
 
 </body>
 </html>

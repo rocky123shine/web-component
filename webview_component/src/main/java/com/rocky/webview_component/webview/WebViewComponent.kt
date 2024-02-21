@@ -1,12 +1,13 @@
 package com.rocky.webview_component.webview
 
 import android.content.Context
-import android.os.Looper
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
+import com.google.gson.Gson
+import com.rocky.webview_component.JsParam
 import com.rocky.webview_component.webview.webviewprocess.callback.WebViewCallBack
 import com.rocky.webview_component.webview.webviewprocess.client.ChromeClient
 import com.rocky.webview_component.webview.webviewprocess.client.ViewClient
@@ -29,10 +30,12 @@ class WebViewComponent constructor(
     constructor(context: Context, attrs: AttributeSet? = null) : this(context, attrs, 0, 0)
 
     init {
+        WebViewProcessCommandsDispatcher.initAidlConnection()
         WebViewDefaultSettings.setSettings(this)
         webViewClient = object : WebViewClient() {}
         addJavascriptInterface(this, "webComponent")
     }
+
 
     /**
      * @param callback 处理 webview的回调
@@ -50,9 +53,16 @@ class WebViewComponent constructor(
      */
     @JavascriptInterface
     fun executeNativeAction(jsParam: String) {
-        println("h5 调用原生方法 $jsParam")
-        android.os.Handler(Looper.getMainLooper()).post {
-            Toast.makeText(context, jsParam, Toast.LENGTH_SHORT).show()
+        if (!TextUtils.isEmpty(jsParam)) {
+            val jsParamObj = Gson().fromJson(jsParam, JsParam::class.java)
+            jsParamObj?.let {
+                WebViewProcessCommandsDispatcher.executeCommand(
+                    jsParamObj.name,
+                    Gson().toJson(jsParamObj.param),
+                    this
+                )
+            }
+
         }
     }
 }
