@@ -41,6 +41,7 @@ object WebViewProcessCommandsDispatcher : ServiceConnection {
             parameters,
             object : ICallbackFromMainProcessToWebViewProcess.Stub() {
                 override fun onResult(callbackName: String?, response: String?) {
+                    webView.handleCallback(callbackName,response)
                 }
             })
     }

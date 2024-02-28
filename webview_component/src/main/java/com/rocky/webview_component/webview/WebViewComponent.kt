@@ -57,12 +57,20 @@ class WebViewComponent constructor(
             val jsParamObj = Gson().fromJson(jsParam, JsParam::class.java)
             jsParamObj?.let {
                 WebViewProcessCommandsDispatcher.executeCommand(
-                    jsParamObj.name,
-                    Gson().toJson(jsParamObj.param),
-                    this
+                    jsParamObj.name, Gson().toJson(jsParamObj.param), this
                 )
             }
 
+        }
+    }
+
+    fun handleCallback(callbackName: String?, response: String?) {
+        val jsCode = "javascript:messagejs.callback('"+ callbackName+"',"+response +")"
+        println(jsCode+"=========")
+        if (!TextUtils.isEmpty(callbackName) && !TextUtils.isEmpty(response)) {
+            post {
+                evaluateJavascript(jsCode, null)
+            }
         }
     }
 }

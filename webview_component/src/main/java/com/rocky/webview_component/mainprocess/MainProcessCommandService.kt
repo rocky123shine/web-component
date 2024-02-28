@@ -8,7 +8,7 @@ import android.os.IBinder
  * <pre>
  *     author : rocky
  *     time   : 2024/02/21
- *     des : web 进程和 主进程通讯的桥梁
+ *     des    : web 进程和 主进程通讯的桥梁
  * </pre>
  */
 class MainProcessCommandService : Service() {
